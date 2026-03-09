@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saji Krishna R S — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --accent: #00ffcc;
+      --accent2: #7b61ff;
+      --text: #e8e8f0;
+      --muted: #6b6b8a;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; cursor: none; }
+    .cursor { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+    .cursor-ring { width: 36px; height: 36px; border: 1.5px solid var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: width 0.2s, height 0.2s; mix-blend-mode: difference; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1; opacity: 0.5; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.4rem 3rem; backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.04); background: rgba(10,10,15,0.75); }
+    .nav-logo { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); letter-spacing: 0.06em; white-space: nowrap; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { font-family: var(--mono); font-size: 0.73rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; text-transform: uppercase; }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding: 0 3rem; position: relative; overflow: hidden; }
+    .hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,255,204,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,204,0.03) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; }
+    .hero-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,204,0.08) 0%, transparent 70%); top: -100px; right: -100px; pointer-events: none; }
+    .hero-glow2 { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(123,97,255,0.07) 0%, transparent 70%); bottom: 0; left: 100px; pointer-events: none; }
+    .hero-content { position: relative; z-index: 2; max-width: 980px; }
+    .hero-tag { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.4rem; opacity: 0; animation: fadeUp 0.6s 0.2s forwards; }
+    .hero-name { font-size: clamp(3rem, 7vw, 6rem); font-weight: 800; line-height: 1; letter-spacing: -0.02em; margin-bottom: 1.4rem; opacity: 0; animation: fadeUp 0.6s 0.4s forwards; white-space: nowrap; background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-roles { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.6s 0.55s forwards; }
+    .role-badge { font-family: var(--mono); font-size: 0.7rem; padding: 0.3rem 0.85rem; border: 1px solid rgba(0,255,204,0.25); color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; background: rgba(0,255,204,0.05); }
+    .hero-desc { font-size: 1.05rem; color: var(--muted); max-width: 540px; line-height: 1.8; margin-bottom: 2.4rem; opacity: 0; animation: fadeUp 0.6s 0.7s forwards; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s 0.85s forwards; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: #0a0a0f; font-family: var(--mono); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.85rem 1.8rem; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent2); }
+    .btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.85rem 1.8rem; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0; animation: fadeUp 0.6s 1.2s forwards; }
+    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--accent), transparent); animation: scrollPulse 2s infinite; }
+
+    /* SECTIONS */
+    section { padding: 7rem 3rem; position: relative; z-index: 2; }
+    .section-label { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 0.55rem; }
+    .section-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 3.5rem; line-height: 1.1; }
+
+    /* ABOUT */
+    #about { background: var(--surface); border-top: 1px solid var(--border); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; max-width: 1100px; }
+    .about-text p { color: var(--muted); line-height: 1.85; font-size: 0.98rem; margin-bottom: 1.2rem; }
+    .about-text p strong { color: var(--text); }
+    .about-details { display: flex; flex-direction: column; }
+    .detail-row { display: flex; align-items: flex-start; gap: 1rem; padding: 1.1rem 0; border-bottom: 1px solid var(--border); }
+    .detail-row:first-child { padding-top: 0; }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-key { font-family: var(--mono); font-size: 0.66rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; min-width: 75px; margin-top: 0.15rem; }
+    .detail-val { font-size: 0.9rem; color: var(--text); line-height: 1.55; }
+    .cert-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(0,255,204,0.3); transition: border-color 0.2s; font-size: 0.9rem; }
+    .cert-link:hover { border-color: var(--accent); }
+
+    /* SKILLS */
+    #skills { border-top: 1px solid var(--border); }
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.4rem; max-width: 1100px; }
+    .skill-card { border: 1px solid var(--border); padding: 1.7rem; background: var(--surface); transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+    .skill-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); opacity: 0; transition: opacity 0.2s; }
+    .skill-card:hover { border-color: rgba(0,255,204,0.3); transform: translateY(-3px); }
+    .skill-card:hover::before { opacity: 1; }
+    .skill-card-title { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag { font-family: var(--mono); font-size: 0.68rem; padding: 0.26rem 0.6rem; background: rgba(0,255,204,0.06); border: 1px solid rgba(0,255,204,0.14); color: var(--text); letter-spacing: 0.03em; }
+
+    /* PROJECTS */
+    #projects { background: var(--surface); border-top: 1px solid var(--border); }
+    .projects-list { display: flex; flex-direction: column; gap: 1.1rem; max-width: 1100px; }
+    .project-card { border: 1px solid var(--border); padding: 1.9rem 2.3rem; display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; text-decoration: none; color: inherit; }
+    .project-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,255,204,0.02), transparent); opacity: 0; transition: opacity 0.3s; }
+    .project-card:hover { border-color: rgba(0,255,204,0.3); transform: translateX(5px); }
+    .project-card:hover::after { opacity: 1; }
+    .project-title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.55rem; }
+    .project-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.7; margin-bottom: 1rem; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tech-tag { font-family: var(--mono); font-size: 0.65rem; padding: 0.2rem 0.52rem; background: rgba(123,97,255,0.08); border: 1px solid rgba(123,97,255,0.2); color: #a89aff; letter-spacing: 0.03em; }
+    .project-arrow { font-size: 1.2rem; color: var(--muted); transition: color 0.2s, transform 0.2s; flex-shrink: 0; }
+    .project-card:hover .project-arrow { color: var(--accent); transform: translate(3px, -3px); }
+
+    /* EXPERIENCE */
+    #experience { border-top: 1px solid var(--border); }
+    .exp-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1100px; }
+    .exp-col-title { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 2rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); }
+    .exp-item { padding: 1.7rem 0; border-bottom: 1px solid var(--border); }
+    .exp-item:first-child { padding-top: 0; }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.25rem; gap: 1rem; }
+    .exp-company { font-size: 0.98rem; font-weight: 700; }
+    .exp-date { font-family: var(--mono); font-size: 0.66rem; color: var(--muted); white-space: nowrap; }
+    .exp-role { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 0.85rem; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.42rem; }
+    .exp-bullets li { font-size: 0.87rem; color: var(--muted); line-height: 1.6; padding-left: 1.1rem; position: relative; }
+    .exp-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+
+    /* OFFERS */
+    .offer-item { padding: 1.7rem 0; border-bottom: 1px solid var(--border); }
+    .offer-item:first-child { padding-top: 0; }
+    .offer-item:last-child { border-bottom: none; }
+    .offer-badge { display: inline-block; font-family: var(--mono); font-size: 0.63rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.6rem; background: rgba(0,255,204,0.08); border: 1px solid rgba(0,255,204,0.2); color: var(--accent); margin-bottom: 0.65rem; }
+    .offer-company { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.22rem; }
+    .offer-role { font-family: var(--mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.05em; margin-bottom: 0.55rem; }
+    .offer-detail { font-size: 0.87rem; color: var(--muted); line-height: 1.65; }
+
+    /* CONTACT */
+    #contact { background: var(--surface); border-top: 1px solid var(--border); }
+    .contact-inner { max-width: 700px; }
+    .contact-big { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1.4rem; }
+    .contact-big span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .contact-sub { color: var(--muted); font-size: 0.98rem; line-height: 1.75; margin-bottom: 2.8rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.85rem; }
+    .contact-link { display: flex; align-items: center; gap: 1.2rem; padding: 1.1rem 1.4rem; border: 1px solid var(--border); text-decoration: none; color: var(--text); transition: border-color 0.2s, transform 0.2s; font-family: var(--mono); font-size: 0.82rem; }
+    .contact-link:hover { border-color: var(--accent); transform: translateX(6px); color: var(--accent); }
+    .contact-link-label { font-size: 0.63rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); min-width: 60px; }
+    .contact-link-val { flex: 1; }
+
+    /* FOOTER */
+    footer { padding: 2rem 3rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+    .footer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; margin-right: 0.5rem; animation: blink 2s infinite; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+    .fade-in { opacity: 0; transform: translateY(22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) { .exp-columns { grid-template-columns: 1fr; gap: 3rem; } }
+    @media (max-width: 768px) {
+      nav { padding: 1.1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 5rem 1.5rem; }
+      #hero { padding: 0 1.5rem; }
+      .hero-name { font-size: clamp(2.2rem, 8vw, 4rem); white-space: normal; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .project-card { grid-template-columns: 1fr; }
+      .project-arrow { display: none; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Saji Krishna R S</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-content">
+      <p class="hero-tag">B.Tech CSE (IoT) &nbsp;·&nbsp; Chennai, India</p>
+      <h1 class="hero-name">Saji Krishna R S</h1>
+      <div class="hero-roles">
+        <span class="role-badge">AI / ML Engineer</span>
+        <span class="role-badge">Data Analyst</span>
+        <span class="role-badge">Full-Stack Developer</span>
+      </div>
+      <p class="hero-desc">Building intelligent systems at the intersection of machine learning, data analytics, and applied AI — from RAG pipelines and NLP tools to full-stack platforms with real-world impact.</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn-primary">View Projects ↗</a>
+        <a href="#contact" class="btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="fade-in">
+      <p class="section-label">About</p>
+      <h2 class="section-title">Who I am</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text fade-in">
+        <p>I am <strong>Saji Krishna R S</strong>, a final-year B.Tech CSE (IoT) student at Shiv Nadar University, Chennai. My focus is on <strong>applied AI, machine learning, and data analytics</strong> — building systems that are trustworthy, accurate, and practically deployable.</p>
+        <p>I work across the full stack: designing ML pipelines, building REST APIs, and shipping data-driven applications. My projects span retrieval-augmented generation, NLP, computer vision, and IoT — reflecting a broad interest in using intelligent systems to solve real problems.</p>
+        <p>I am Oracle Cloud Infrastructure certified in Generative AI and have internship experience deploying AI systems at scale and conducting enterprise-level procurement research.</p>
+      </div>
+      <div class="about-details fade-in">
+        <div class="detail-row">
+          <span class="detail-key">Location</span>
+          <span class="detail-val">Thiruvanmiyur, Chennai — 600041</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">Degree</span>
+          <span class="detail-val">B.Tech CSE (IoT), Shiv Nadar University · 2022 – 2026</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">CGPA</span>
+          <span class="detail-val">7.8 / 10</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">Cert</span>
+          <span class="detail-val">
+            <a class="cert-link" href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=446B09129E6C25DFC189A31B19E69B24A4CECD4A12ACAD868BB0F0B53F7FA1D8" target="_blank" rel="noopener">Oracle Cloud Infrastructure — Generative AI Professional 2025 ↗</a>
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-key">Email</span>
+          <span class="detail-val">rssajikrishna@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="fade-in">
+      <p class="section-label">Skills</p>
+      <h2 class="section-title">What I work with</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">Languages</div>
+        <div class="skill-tags">
+          <span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">TypeScript</span><span class="tag">HTML / CSS</span><span class="tag">MySQL</span><span class="tag">C++</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">AI / ML</div>
+        <div class="skill-tags">
+          <span class="tag">LangChain</span><span class="tag">FAISS</span><span class="tag">Scikit-learn</span><span class="tag">Google Generative AI</span><span class="tag">FLAN-T5</span><span class="tag">Sentence-BERT</span><span class="tag">TF-IDF</span><span class="tag">Cosine Similarity</span><span class="tag">OpenCV</span><span class="tag">CNN</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">Data Analytics</div>
+        <div class="skill-tags">
+          <span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">NLP</span><span class="tag">Sentiment Analysis</span><span class="tag">Data Visualisation</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">Backend &amp; APIs</div>
+        <div class="skill-tags">
+          <span class="tag">FastAPI</span><span class="tag">REST APIs</span><span class="tag">SQLAlchemy</span><span class="tag">Pydantic</span><span class="tag">PyMuPDF</span><span class="tag">pdfplumber</span><span class="tag">PyPDF2</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">Interfaces &amp; Tooling</div>
+        <div class="skill-tags">
+          <span class="tag">Streamlit</span><span class="tag">VS Code Extension API</span>
+        </div>
+      </div>
+      <div class="skill-card fade-in">
+        <div class="skill-card-title">Platforms &amp; Tools</div>
+        <div class="skill-tags">
+          <span class="tag">Git</span><span class="tag">Oracle Cloud (OCI)</span><span class="tag">MySQL</span><span class="tag">SHA-256 / Hashing</span><span class="tag">Arduino</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="fade-in">
+      <p class="section-label">Projects</p>
+      <h2 class="section-title">Things I have built</h2>
+    </div>
+    <div class="projects-list">
+
+      <a class="project-card fade-in" href="https://github.com/rssajikrishna/PDF-ChatBot-using-Langchain" target="_blank" rel="noopener">
+        <div>
+          <div class="project-title">AI-Powered PDF Information Retrieval System</div>
+          <div class="project-desc">An intelligent PDF querying system that extracts, indexes, and retrieves information from complex documents using vector search and large language models. Deployed at NLC India Limited to streamline departmental workflows.</div>
+          <div class="project-tech"><span class="tech-tag">LangChain</span><span class="tech-tag">Google Generative AI</span><span class="tech-tag">FAISS</span><span class="tech-tag">Streamlit</span><span class="tech-tag">PyMuPDF</span><span class="tech-tag">pdfplumber</span></div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a class="project-card fade-in" href="https://github.com/rssajikrishna/Public-Sentiment-Dashboard-on-Government-Policies" target="_blank" rel="noopener">
+        <div>
+          <div class="project-title">Public Sentiment Dashboard on Government Policies</div>
+          <div class="project-desc">An NLP-driven analytics dashboard that aggregates and visualises public sentiment towards government policies. Processes text data through sentiment classification pipelines and presents insights through interactive charts.</div>
+          <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">NLP</span><span class="tech-tag">Sentiment Analysis</span><span class="tech-tag">Pandas</span><span class="tech-tag">Matplotlib</span><span class="tech-tag">Streamlit</span></div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a class="project-card fade-in" href="https://github.com/rssajikrishna/Human-emotion-Detection" target="_blank" rel="noopener">
+        <div>
+          <div class="project-title">Human Emotion Detection</div>
+          <div class="project-desc">A computer vision system for real-time facial emotion recognition. Classifies human emotions from image or video input using deep learning and OpenCV, enabling applications in human-computer interaction and behavioural analytics.</div>
+          <div class="project-tech"><span class="tech-tag">Python</span><span class="tech-tag">OpenCV</span><span class="tech-tag">Deep Learning</span><span class="tech-tag">CNN</span><span class="tech-tag">Computer Vision</span></div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a class="project-card fade-in" href="https://github.com/rssajikrishna/Code-Plagiarism-Checker" target="_blank" rel="noopener">
+        <div>
+          <div class="project-title">Code Plagiarism Checker</div>
+          <div class="project-desc">Full-stack plagiarism detection platform with a FastAPI REST backend, Streamlit frontend, and MySQL persistence. Detects code similarity using TF-IDF vectorisation and cosine similarity, with heatmap visualisations and adjustable thresholds.</div>
+          <div class="project-tech"><span class="tech-tag">FastAPI</span><span class="tech-tag">Scikit-learn</span><span class="tech-tag">Streamlit</span><span class="tech-tag">MySQL</span><span class="tech-tag">SQLAlchemy</span><span class="tech-tag">Seaborn</span></div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <div class="project-card fade-in" style="cursor:default;">
+        <div>
+          <div class="project-title">Tamper-Proof RAG Personal Finance Advisor</div>
+          <div class="project-desc">A trust-centric RAG system where rule-based logic handles all budget and portfolio decisions, while an LLM provides grounded natural language explanations over retrieved documents. Dual-level SHA-256 hashing ensures auditable, verifiable AI outputs in a high-stakes financial domain.</div>
+          <div class="project-tech"><span class="tech-tag">Sentence-BERT</span><span class="tech-tag">FAISS</span><span class="tech-tag">FLAN-T5</span><span class="tech-tag">Streamlit</span><span class="tech-tag">SHA-256</span><span class="tech-tag">Python</span></div>
+        </div>
+      </div>
+
+      <a class="project-card fade-in" href="https://github.com/rssajikrishna/project-structure-creator" target="_blank" rel="noopener">
+        <div>
+          <div class="project-title">VS Code Extension — Project Structure Creator</div>
+          <div class="project-desc">A developer productivity extension that auto-generates folder and file structures from text-based or ASCII tree inputs directly within VS Code, enabling rapid project scaffolding without leaving the editor.</div>
+          <div class="project-tech"><span class="tech-tag">TypeScript</span><span class="tech-tag">VS Code API</span><span class="tech-tag">Node.js</span></div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a class="project-card fade-in" href="https://github.com/rssajikrishna/Arduino-fingerprint-locksystem" target="_blank" rel="noopener">
+        <div>
+          <div class="project-title">Arduino Fingerprint Lock System</div>
+          <div class="project-desc">An IoT-based biometric security system using an Arduino microcontroller and fingerprint sensor for physical access control. Demonstrates embedded C++ programming and hardware-software integration for real-world deployment.</div>
+          <div class="project-tech"><span class="tech-tag">C++</span><span class="tech-tag">Arduino</span><span class="tech-tag">IoT</span><span class="tech-tag">Embedded Systems</span></div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE + OFFERS -->
+  <section id="experience">
+    <div class="fade-in">
+      <p class="section-label">Experience</p>
+      <h2 class="section-title">Where I have worked</h2>
+    </div>
+    <div class="exp-columns">
+
+      <div>
+        <div class="exp-col-title">Work Experience</div>
+
+        <div class="exp-item fade-in">
+          <div class="exp-top">
+            <div class="exp-company">NLC India Limited</div>
+            <div class="exp-date">Jan 2025 · Neyveli, TN</div>
+          </div>
+          <div class="exp-role">Project Intern</div>
+          <ul class="exp-bullets">
+            <li>Designed and built an AI-powered PDF retrieval system using LangChain, Google Generative AI, and FAISS for departmental workflows.</li>
+            <li>Implemented extraction and visualisation of text, tables, and images from complex multi-format PDFs.</li>
+            <li>Leveraged PyPDF2, pdfplumber, and PyMuPDF for robust PDF parsing and data extraction.</li>
+          </ul>
+        </div>
+
+        <div class="exp-item fade-in">
+          <div class="exp-top">
+            <div class="exp-company">Arcolab Private Limited</div>
+            <div class="exp-date">Jul – Aug 2025 · Bengaluru, KA</div>
+          </div>
+          <div class="exp-role">Market Research and Procurement Solutions Analyst Intern</div>
+          <ul class="exp-bullets">
+            <li>Conducted competitive research on Source-to-Pay (S2P) procurement platforms, comparing feature coverage across vendors.</li>
+            <li>Analysed enterprise procurement workflows through product demos and documentation.</li>
+            <li>Produced structured feature comparisons and workflow-level feedback to support product positioning decisions.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="exp-col-title">Existing Offers</div>
+
+        <div class="offer-item fade-in">
+          <div class="offer-badge">Upcoming Role</div>
+          <div class="offer-company">Strategic Research Insights</div>
+          <div class="offer-role">Big Data Analyst</div>
+          <div class="offer-detail">Offer secured to join as a Big Data Analyst, working on large-scale data processing, analytical modelling, and insight generation to support strategic research objectives.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="fade-in">
+        <p class="section-label">Contact</p>
+        <h2 class="contact-big">Let us build<br/><span>something.</span></h2>
+        <p class="contact-sub">Open to internships, collaborations, and interesting problems. Feel free to reach out — I respond promptly.</p>
+      </div>
+      <div class="contact-links fade-in">
+        <a href="mailto:rssajikrishna@gmail.com" class="contact-link">
+          <span class="contact-link-label">Email</span>
+          <span class="contact-link-val">rssajikrishna@gmail.com</span>
+          <span>↗</span>
+        </a>
+        <a href="https://www.linkedin.com/in/saji-krishna/" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-link-label">LinkedIn</span>
+          <span class="contact-link-val">linkedin.com/in/saji-krishna</span>
+          <span>↗</span>
+        </a>
+        <a href="https://github.com/rssajikrishna" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-link-label">GitHub</span>
+          <span class="contact-link-val">github.com/rssajikrishna</span>
+          <span>↗</span>
+        </a>
+        <a href="tel:+919080257013" class="contact-link">
+          <span class="contact-link-label">Phone</span>
+          <span class="contact-link-val">+91 90802 57013</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div><span class="footer-dot"></span>Saji Krishna R S &nbsp;·&nbsp; 2025</div>
+    <div>AI / ML &nbsp;&nbsp;·&nbsp;&nbsp; Data Analytics &nbsp;&nbsp;·&nbsp;&nbsp; Full-Stack</div>
+  </footer>
+
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+    });
+    function animRing() {
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { ring.style.width = '54px'; ring.style.height = '54px'; });
+      el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; });
+    });
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
