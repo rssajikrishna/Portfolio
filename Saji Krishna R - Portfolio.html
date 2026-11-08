@@ -1,0 +1,539 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Saji Krishna R S</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lab notebook. Fixed top bar, one route visible at a time, a 68ch reading column with a wider grid for cards. */
+:root {
+  --paper: #EEF1F5;
+  --sheet: #F8FAFC;
+  --ink: #15203A;
+  --ink-soft: #4A5672;
+  --rule: #D3D9E3;
+  --accent: #2B48C8;
+  --accent-soft: #DDE3FA;
+  --amber: #C27F12;
+  --amber-soft: #F6E7C9;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radius: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0F1524; --sheet: #161E31; --ink: #E2E7F0; --ink-soft: #9AA6BE; --rule: #283350;
+    --accent: #93A6FF; --accent-soft: #232F5A; --amber: #E8B54E; --amber-soft: #3A2F18; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0F1524; --sheet: #161E31; --ink: #E2E7F0; --ink-soft: #9AA6BE; --rule: #283350;
+  --accent: #93A6FF; --accent-soft: #232F5A; --amber: #E8B54E; --amber-soft: #3A2F18; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+p { margin: 0; }
+.wrap { max-width: 1040px; margin: 0 auto; }
+.label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+
+/* Top bar */
+header.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--paper);
+  border-bottom: 1px solid var(--rule); margin: 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px))) 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.bar-in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink); text-decoration: none; }
+.brand span { color: var(--ink-soft); font-weight: 500; }
+nav.routes { display: flex; gap: 4px; flex-wrap: wrap; }
+nav.routes a {
+  font-family: var(--mono); font-size: 0.8rem; color: var(--ink-soft); text-decoration: none; padding: 6px 10px; border-radius: var(--radius);
+}
+nav.routes a:hover { color: var(--ink); background: var(--sheet); }
+nav.routes a[aria-current="page"] { color: var(--accent); background: var(--accent-soft); }
+
+main { padding-block: 48px 72px; }
+.view { display: grid; gap: 56px; }
+.view[hidden] { display: none !important; }
+
+/* Home */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.hero h1 { font-size: clamp(2.3rem, 5.2vw, 3.7rem); font-weight: 800; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lede { margin-top: 18px; font-size: 1.12rem; color: var(--ink-soft); max-width: 34rem; }
+.hero .lede strong { color: var(--ink); font-weight: 600; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 0.82rem; text-decoration: none;
+  padding: 10px 16px; border-radius: var(--radius); border: 1px solid var(--rule); color: var(--ink); background: var(--sheet); cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn.primary:hover { color: var(--paper); filter: brightness(1.08); }
+
+.router { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px; display: grid; gap: 14px; margin: 0; min-width: 0; }
+.router .note { font-size: 0.82rem; color: var(--ink-soft); }
+.qs { display: grid; gap: 6px; }
+.qs button {
+  text-align: left; font-family: var(--body); font-size: 0.9rem; line-height: 1.4; padding: 8px 12px; border-radius: var(--radius);
+  border: 1px solid var(--rule); background: var(--paper); color: var(--ink); cursor: pointer;
+}
+.qs button:hover { border-color: var(--accent); }
+.qs button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+ol.trace { list-style: none; margin: 0; padding: 0 0 0 4px; display: grid; gap: 0; border-left: 2px solid var(--rule); margin-left: 6px; }
+ol.trace li { position: relative; padding: 0 0 12px 18px; display: grid; gap: 2px; animation: in 0.35s ease both; }
+ol.trace li:last-child { padding-bottom: 0; }
+ol.trace li::before { content: ""; position: absolute; left: -7px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--sheet); border: 2px solid var(--accent); }
+ol.trace li.genie::before { background: var(--accent); }
+ol.trace li.rag::before { background: var(--amber); border-color: var(--amber); }
+ol.trace .step-name { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+ol.trace .step-body { font-size: 0.9rem; }
+@keyframes in { from { opacity: 0.2; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { ol.trace li { animation: none; } }
+
+.stack-layers { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.layer { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 20px; padding-block: 18px; border-bottom: 1px solid var(--rule); }
+.layer h3 { font-size: 1.05rem; }
+.layer p { color: var(--ink-soft); max-width: 62ch; }
+.section-head { display: grid; gap: 8px; margin-bottom: 20px; }
+.section-head h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); }
+.section-head p { color: var(--ink-soft); max-width: 62ch; }
+
+.interests { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.interest { padding: 18px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); display: grid; gap: 8px; align-content: start; }
+.interest h3 { font-size: 1.05rem; }
+.interest p { color: var(--ink-soft); font-size: 0.95rem; }
+
+/* Work */
+.timeline { display: grid; gap: 0; border-left: 2px solid var(--rule); margin-left: 6px; }
+.role { position: relative; padding: 0 0 40px 28px; display: grid; gap: 10px; }
+.role::before { content: ""; position: absolute; left: -8px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--paper); border: 2px solid var(--ink-soft); }
+.role.current::before { border-color: var(--accent); background: var(--accent); }
+.role-top { display: flex; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; align-items: baseline; }
+.role h3 { font-size: 1.3rem; }
+.role .title { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); }
+.role .when { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.sub { margin-top: 8px; font-weight: 600; font-size: 0.95rem; }
+ul.points { margin: 0; padding-left: 1.1rem; display: grid; gap: 6px; max-width: 72ch; }
+ul.points li { color: var(--ink-soft); }
+ul.points li::marker { color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--mono); font-size: 0.72rem; padding: 3px 8px; border-radius: 4px; background: var(--accent-soft); color: var(--ink); }
+.chip.amber { background: var(--amber-soft); }
+
+/* Education */
+.edu { display: grid; border-top: 1px solid var(--rule); }
+.edu-row { display: grid; grid-template-columns: minmax(0, 1fr) 7rem 6rem; gap: 6px 16px; align-items: baseline; padding-block: 16px; border-bottom: 1px solid var(--rule); }
+.edu-row h3 { font-size: 1.05rem; }
+.edu-row p { color: var(--ink-soft); font-size: 0.93rem; }
+.edu-row .when, .edu-row .score { font-family: var(--mono); font-size: 0.82rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.edu-row .score { color: var(--ink); text-align: right; }
+@media (max-width: 560px) { .edu-row { grid-template-columns: minmax(0, 1fr) auto; } .edu-row > div { grid-column: 1 / -1; } .edu-row .score { text-align: left; } }
+
+/* Projects */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filters button {
+  font-family: var(--mono); font-size: 0.8rem; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--rule);
+  background: var(--sheet); color: var(--ink-soft); cursor: pointer;
+}
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.card {
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: 20px; display: grid; gap: 10px; align-content: start;
+}
+.card[hidden] { display: none !important; }
+.card-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.card h3 { font-size: 1.15rem; }
+.card .kind { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber); }
+.card p { color: var(--ink-soft); font-size: 0.95rem; }
+.card details { border-top: 1px solid var(--rule); padding-top: 10px; }
+.card summary { cursor: pointer; font-family: var(--mono); font-size: 0.78rem; color: var(--accent); list-style: none; }
+.card summary::-webkit-details-marker { display: none; }
+.card summary::before { content: "+ "; }
+.card details[open] summary::before { content: "− "; }
+.card details ul { margin: 10px 0 0; padding-left: 1.1rem; display: grid; gap: 6px; font-size: 0.93rem; color: var(--ink-soft); }
+.card .links { display: flex; gap: 14px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.8rem; }
+.card .private { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-soft); }
+
+/* Contact */
+.contact { display: grid; gap: 24px; max-width: 640px; }
+.contact h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
+.contact p { color: var(--ink-soft); }
+.channels { display: grid; border-top: 1px solid var(--rule); }
+.channel { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) auto; gap: 12px; align-items: center; padding-block: 14px; border-bottom: 1px solid var(--rule); }
+.channel .val { font-family: var(--mono); font-size: 0.9rem; overflow-wrap: anywhere; user-select: all; }
+.copied { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); min-height: 1.2em; }
+
+footer.foot { border-top: 1px solid var(--rule); padding-block: 20px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 0.75rem; color: var(--ink-soft); }
+
+@media (max-width: 820px) {
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .interests, .grid { grid-template-columns: minmax(0, 1fr); }
+  .layer { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
+@media (max-width: 480px) {
+  .channel { grid-template-columns: minmax(0, 1fr) auto; }
+  .channel .label { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="#">Saji Krishna R S <span>· Data Scientist</span></a>
+    <nav class="routes" aria-label="Pages">
+      <a href="#" data-route="home">Home</a>
+      <a href="#work" data-route="work">Work</a>
+      <a href="#projects" data-route="projects">Projects</a>
+      <a href="#contact" data-route="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <section class="view" id="view-home" aria-label="Home">
+    <div class="hero">
+      <div>
+        <p class="label">Chennai · Commercial pharma analytics</p>
+        <h1 style="margin-top:12px">I build GenAI systems on the lakehouse, and <em>measure</em> whether they work.</h1>
+        <p class="lede">Data Scientist at <strong>Strategic Research Insights</strong>. I build on <strong>Databricks</strong> end to end for pharma brand teams: Delta Live Tables pipelines, Unity Catalog governance, metric views and Genie, and multi-agent assistants evaluated with MLflow.</p>
+        <div class="cta">
+          <a class="btn primary" href="#work">See my work</a>
+          <a class="btn" href="#projects">Browse projects</a>
+          <a class="btn" href="https://github.com/rssajikrishna" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+      <figure class="router">
+        <span class="label">How the assistant routes a question</span>
+        <div class="qs" role="group" aria-label="Sample questions">
+          <button type="button" data-q="0" aria-pressed="true">What was NBRx last quarter by region?</button>
+          <button type="button" data-q="1" aria-pressed="false">Summarise the latest competitor trial readout.</button>
+          <button type="button" data-q="2" aria-pressed="false">Why did naive starts dip in the West, and what does recent literature say?</button>
+        </div>
+        <ol class="trace" id="trace" aria-live="polite"></ol>
+        <figcaption class="note">Illustrative trace of the routing pattern I built. No client data.</figcaption>
+      </figure>
+    </div>
+
+    <div>
+      <div class="section-head">
+        <p class="label">What I work on</p>
+        <h2>From raw tables to an answer a brand team can trust</h2>
+      </div>
+      <div class="stack-layers">
+        <div class="layer"><h3>Pipelines</h3><p>Delta Live Tables with data quality expectations. Failing records are quarantined before they reach brand KPIs.</p></div>
+        <div class="layer"><h3>Governance</h3><p>Unity Catalog access controls and Volumes for documents, plus AI Gateway token budgets and rate limits so usage and cost stay predictable.</p></div>
+        <div class="layer"><h3>Semantic layer</h3><p>Metric views for NBRx, naive patient starts and length of therapy, and a Genie space grounded with verified SQL, so a metric means one thing whether a person or an LLM asks for it.</p></div>
+        <div class="layer"><h3>Agents</h3><p>A planner routes each question to a Genie text-to-SQL agent, a Vector Search retrieval agent over clinical and competitive documents, or both.</p></div>
+        <div class="layer"><h3>Evaluation</h3><p>MLflow tracing on every step, and LLM judges with custom scorers that catch routing and grounding regressions before release.</p></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-head">
+        <p class="label">Interests</p>
+        <h2>What I want to get better at</h2>
+        <p>The problems I find most interesting, and the direction I'm taking my work.</p>
+      </div>
+      <div class="interests">
+        <div class="interest"><span class="label">Quality</span><h3>GenAI you can measure</h3><p>Benchmarks with known-correct answers for every agent, so each prompt or tool change shows its accuracy before and after.</p></div>
+        <div class="interest"><span class="label">Context</span><h3>Semantic layers for LLMs</h3><p>Grounding text-to-SQL in governed metric definitions, so the model reuses the approved NBRx instead of inventing its own.</p></div>
+        <div class="interest"><span class="label">Agents</span><h3>Routing and orchestration</h3><p>How a planner decides between structured and unstructured sources, when to call both, and how to log the decisions that went wrong.</p></div>
+        <div class="interest"><span class="label">Platform</span><h3>Production discipline</h3><p>Asset Bundles, CI/CD and environment promotion, so pipelines and agents ship like software rather than notebooks.</p></div>
+        <div class="interest"><span class="label">Cost</span><h3>Governance and spend</h3><p>Row-level access for regulated data, lineage from table to answer, and system tables that show the cost of each pipeline and agent query.</p></div>
+        <div class="interest"><span class="label">Long term</span><h3>B2B data products</h3><p>Small SaaS tools that solve one enterprise data problem well, starting with evaluation for text-to-SQL.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="view" id="view-work" aria-label="Work" hidden>
+    <div class="section-head">
+      <p class="label">Experience</p>
+      <h2>Work</h2>
+      <p>Client names and brands are left out. Project details are described at the level I'm allowed to share.</p>
+    </div>
+    <div class="timeline">
+      <article class="role current">
+        <div class="role-top"><h3>Strategic Research Insights</h3><span class="when">2026 – present · Chennai</span></div>
+        <span class="title">Junior Data Scientist</span>
+        <p class="sub">Commercial lakehouse &amp; conversational AI platform · rare-disease cardiology brand</p>
+        <ul class="points">
+          <li>Built Delta Live Tables pipelines that turn raw commercial and sales-ops sources into governed Unity Catalog tables, quarantining failing records before they reach brand KPIs.</li>
+          <li>Implemented the semantic layer: metric views for NBRx, naive patient starts and length of therapy, and a Genie space grounded with verified SQL examples and brand terminology.</li>
+          <li>Developed a multi-agent system on the Mosaic AI Agent Framework: a planner/router dispatching to a Genie-backed structured-data agent and a Vector Search RAG agent over clinical publications and competitive-intelligence documents.</li>
+          <li>Set up governance and evaluation: Unity Catalog access controls, AI Gateway token budgets and rate limits, and MLflow evaluation with LLM judges and custom scorers.</li>
+        </ul>
+        <div class="chips"><span class="chip">Delta Live Tables</span><span class="chip">Unity Catalog</span><span class="chip">Genie</span><span class="chip">Agent Framework</span><span class="chip">Vector Search</span><span class="chip">MLflow</span><span class="chip">AI Gateway</span></div>
+        <p class="sub">Earlier: Bayesian marketing mix model</p>
+        <ul class="points">
+          <li>Data preparation, EDA and a PyMC model with adstock and saturation to estimate promotional channel ROI for a US pharma brand.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-top"><h3>Arcolab Private Limited</h3><span class="when">Mar – May 2026 · Bengaluru</span></div>
+        <span class="title">Intern – Operational Excellence (Full-Stack Development)</span>
+        <ul class="points">
+          <li>Built a full-stack operations portal tracking Quality, Delivery, Safety and Health metrics across all departments and 3 shifts. It went into production at PivotPath (demerged from Arcolab), replacing whiteboards, Excel sheets and WhatsApp updates.</li>
+          <li>Developed REST APIs and department workflows (EHS, Engineering, HR, employee ideas) with configurable edit windows and audit logging.</li>
+          <li>Automated missed-shift email alerts with node-cron and Nodemailer, and built dashboards with CSV/PDF export for supervisors and department heads.</li>
+        </ul>
+        <div class="chips"><span class="chip">React</span><span class="chip">Node.js / Express</span><span class="chip">MongoDB</span><span class="chip">Recharts</span></div>
+      </article>
+
+      <article class="role" style="padding-bottom:0">
+        <div class="role-top"><h3>NLC India Limited</h3><span class="when">Jan 2025 · Neyveli</span></div>
+        <span class="title">Project Intern</span>
+        <ul class="points">
+          <li>Built a retrieval-augmented question-answering system over departmental PDFs with LangChain, Google Gemini and FAISS, with a Streamlit interface for staff.</li>
+          <li>Combined PyMuPDF, pdfplumber and PyPDF2 into one parsing pipeline to extract text, tables and images from complex technical PDFs.</li>
+        </ul>
+        <div class="chips"><span class="chip">LangChain</span><span class="chip">FAISS</span><span class="chip">Gemini</span><span class="chip">Streamlit</span></div>
+      </article>
+
+    </div>
+
+    <div>
+      <div class="section-head">
+        <p class="label">Education</p>
+        <h2>Education &amp; certification</h2>
+      </div>
+      <div class="edu">
+        <div class="edu-row"><div><h3>Shiv Nadar University, Chennai</h3><p>B.Tech, Computer Science &amp; Engineering (IoT)</p></div><span class="when">2022 – 2026</span><span class="score">CGPA 7.8</span></div>
+        <div class="edu-row"><div><h3>Sri Sankara Senior Secondary School, Chennai</h3><p>Class XII</p></div><span class="when">2022</span><span class="score">7.8</span></div>
+        <div class="edu-row"><div><h3>Sri Sankara Senior Secondary School, Chennai</h3><p>Class X</p></div><span class="when">2020</span><span class="score">8.9</span></div>
+        <div class="edu-row"><div><h3>Oracle Cloud Infrastructure Generative AI Professional</h3><p><a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=446B09129E6C25DFC189A31B19E69B24A4CECD4A12ACAD868BB0F0B53F7FA1D8" target="_blank" rel="noopener">View credential ↗</a></p></div><span class="when">2025</span><span class="score">Certified</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="view" id="view-projects" aria-label="Projects" hidden>
+    <div class="section-head">
+      <p class="label">Projects</p>
+      <h2>Things I've built</h2>
+      <p>Open any card for the technical detail. Work projects have no public code.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter projects">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" data-filter="genai" aria-pressed="false">GenAI &amp; RAG</button>
+      <button type="button" data-filter="data" aria-pressed="false">Data &amp; ML</button>
+      <button type="button" data-filter="fullstack" aria-pressed="false">Full-stack</button>
+      <button type="button" data-filter="systems" aria-pressed="false">Tools &amp; IoT</button>
+    </div>
+    <div class="grid" id="cards">
+
+      <article class="card" data-tags="genai data">
+        <div class="card-top"><h3>Pharma Commercial Lakehouse</h3><span class="kind">In progress</span></div>
+        <p>A public rebuild of lakehouse patterns on synthetic pharma data: pipelines, metric views, a routed agent and an eval gate in CI.</p>
+        <div class="chips"><span class="chip">Databricks</span><span class="chip">Asset Bundles</span><span class="chip">MLflow eval</span><span class="chip">GitHub Actions</span></div>
+        <details><summary>Details</summary><ul>
+          <li>Synthetic generator for HCPs, prescriptions, calls and spend.</li>
+          <li>Text-to-SQL benchmark scored by result-set match against gold SQL.</li>
+          <li>Pull requests fail if the evaluation score drops.</li>
+        </ul></details>
+        <span class="private">Repo coming soon</span>
+      </article>
+
+      <article class="card" data-tags="genai data">
+        <div class="card-top"><h3>Conversational analytics platform</h3><span class="kind">Work</span></div>
+        <p>Multi-agent assistant answering brand-team questions from governed metrics and clinical documents.</p>
+        <div class="chips"><span class="chip">Genie</span><span class="chip">Vector Search</span><span class="chip">Agent Framework</span></div>
+        <details><summary>Details</summary><ul>
+          <li>Planner/router chooses between a text-to-SQL agent and a retrieval agent.</li>
+          <li>Metric views keep definitions consistent for both people and the LLM.</li>
+          <li>MLflow tracing and judges catch routing and grounding regressions.</li>
+        </ul></details>
+        <span class="private">Client work · no public code</span>
+      </article>
+
+      <article class="card" data-tags="genai">
+        <div class="card-top"><h3>Tamper-Proof RAG Finance Advisor</h3><span class="kind">Personal</span></div>
+        <p>The rule engine computes the numbers and the LLM only explains them, so the model never invents a figure.</p>
+        <div class="chips"><span class="chip">Sentence-BERT</span><span class="chip">FAISS</span><span class="chip">FLAN-T5</span><span class="chip">SHA-256</span></div>
+        <details><summary>Details</summary><ul>
+          <li>Locally hosted FLAN-T5, so financial data never leaves the machine.</li>
+          <li>Source documents and responses are hashed and logged; altered content fails verification.</li>
+        </ul></details>
+        <span class="private">Repo link to add</span>
+      </article>
+
+      <article class="card" data-tags="genai">
+        <div class="card-top"><h3>PDF Information Retrieval</h3><span class="kind">Internship</span></div>
+        <p>Natural-language Q&amp;A over complex departmental PDFs, built at NLC India.</p>
+        <div class="chips"><span class="chip">LangChain</span><span class="chip">Gemini</span><span class="chip">FAISS</span><span class="chip">PyMuPDF</span></div>
+        <details><summary>Details</summary><ul>
+          <li>Three parsers combined for text, tables and embedded images.</li>
+          <li>Streamlit front end for non-technical staff.</li>
+        </ul></details>
+        <div class="links"><a href="https://github.com/rssajikrishna/PDF-ChatBot-using-Langchain" target="_blank" rel="noopener">Code ↗</a></div>
+      </article>
+
+      <article class="card" data-tags="fullstack">
+        <div class="card-top"><h3>QDSHI Operations Portal</h3><span class="kind">Internship</span></div>
+        <p>Factory performance tracking across departments and shifts, in production at PivotPath.</p>
+        <div class="chips"><span class="chip">React</span><span class="chip">Express</span><span class="chip">MongoDB</span><span class="chip">node-cron</span></div>
+        <details><summary>Details</summary><ul>
+          <li>Edit windows and audit logs make each shift update traceable.</li>
+          <li>Scheduled emails flag missed shift entries to supervisors.</li>
+        </ul></details>
+        <span class="private">Company code · no public repo</span>
+      </article>
+
+      <article class="card" data-tags="data">
+        <div class="card-top"><h3>Bayesian Marketing Mix Model</h3><span class="kind">Work</span></div>
+        <p>Estimated how much revenue each promotional channel drives for a US pharma brand, with uncertainty on every estimate.</p>
+        <div class="chips"><span class="chip amber">PyMC</span><span class="chip amber">Bayesian inference</span><span class="chip amber">Adstock</span><span class="chip amber">Saturation</span><span class="chip amber">EDA</span></div>
+        <details><summary>Details</summary><ul>
+          <li>Prepared and explored multi-channel spend and sales data (rep detailing, speaker programs, digital), handling channel alignment, missing periods and collinearity.</li>
+          <li>Modelled carry-over with adstock and diminishing returns with saturation curves.</li>
+          <li>Reported channel ROI with credible intervals rather than single point estimates, to inform budget planning.</li>
+        </ul></details>
+        <span class="private">Client work · no public code</span>
+      </article>
+
+      <article class="card" data-tags="data">
+        <div class="card-top"><h3>Public Sentiment Dashboard</h3><span class="kind">Personal</span></div>
+        <p>Sentiment classification of public text on government policies, presented as an interactive dashboard.</p>
+        <div class="chips"><span class="chip">NLP</span><span class="chip">Pandas</span><span class="chip">Streamlit</span></div>
+        <div class="links"><a href="https://github.com/rssajikrishna/Public-Sentiment-Dashboard-on-Government-Policies" target="_blank" rel="noopener">Code ↗</a></div>
+      </article>
+
+      <article class="card" data-tags="data">
+        <div class="card-top"><h3>Human Emotion Detection</h3><span class="kind">Personal</span></div>
+        <p>Facial emotion classification from images and video with a CNN and OpenCV.</p>
+        <div class="chips"><span class="chip">CNN</span><span class="chip">OpenCV</span></div>
+        <div class="links"><a href="https://github.com/rssajikrishna/Human-emotion-Detection" target="_blank" rel="noopener">Code ↗</a></div>
+      </article>
+
+      <article class="card" data-tags="fullstack data">
+        <div class="card-top"><h3>Code Plagiarism Checker</h3><span class="kind">Personal</span></div>
+        <p>FastAPI and Streamlit app scoring code similarity with TF-IDF and cosine similarity.</p>
+        <div class="chips"><span class="chip">FastAPI</span><span class="chip">Scikit-learn</span><span class="chip">MySQL</span></div>
+        <div class="links"><a href="https://github.com/rssajikrishna/Code-Plagiarism-Checker" target="_blank" rel="noopener">Code ↗</a></div>
+      </article>
+
+      <article class="card" data-tags="systems">
+        <div class="card-top"><h3>VS Code Project Structure Creator</h3><span class="kind">Personal</span></div>
+        <p>Extension that scaffolds folders and files from an indented or ASCII tree.</p>
+        <div class="chips"><span class="chip">TypeScript</span><span class="chip">VS Code API</span></div>
+        <div class="links"><a href="https://github.com/rssajikrishna/project-structure-creator" target="_blank" rel="noopener">Code ↗</a></div>
+      </article>
+
+      <article class="card" data-tags="systems">
+        <div class="card-top"><h3>Arduino Fingerprint Lock</h3><span class="kind">Personal</span></div>
+        <p>Biometric access control with an Arduino and a fingerprint sensor.</p>
+        <div class="chips"><span class="chip">C++</span><span class="chip">Arduino</span><span class="chip">IoT</span></div>
+        <div class="links"><a href="https://github.com/rssajikrishna/Arduino-fingerprint-locksystem" target="_blank" rel="noopener">Code ↗</a></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="view" id="view-contact" aria-label="Contact" hidden>
+    <div class="contact">
+      <p class="label">Contact</p>
+      <h2>Working on GenAI, lakehouse or measurement problems?</h2>
+      <p>I'm happy to talk about Databricks, evaluation, Bayesian modelling or pharma data. Email is the fastest way to reach me.</p>
+      <div class="channels">
+        <div class="channel"><span class="label">Email</span><span class="val" id="email">rssajikrishna@gmail.com</span><button class="btn" type="button" id="copy">Copy</button></div>
+        <div class="channel"><span class="label">LinkedIn</span><span class="val">linkedin.com/in/rssajikrishna</span><a class="btn" href="https://www.linkedin.com/in/rssajikrishna" target="_blank" rel="noopener">Open ↗</a></div>
+        <div class="channel"><span class="label">GitHub</span><span class="val">github.com/rssajikrishna</span><a class="btn" href="https://github.com/rssajikrishna" target="_blank" rel="noopener">Open ↗</a></div>
+      </div>
+      <p class="copied" id="copied" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Saji Krishna R S · Chennai</span>
+    <span>Databricks · GenAI · Lakehouse</span>
+  </footer>
+</main>
+
+<script>
+(() => {
+  // Routing on plain #names
+  const routes = ["home", "work", "projects", "contact"];
+  const show = () => {
+    const h = location.hash.replace("#", "");
+    const r = routes.includes(h) ? h : "home";
+    routes.forEach(n => { document.getElementById("view-" + n).hidden = n !== r; });
+    document.querySelectorAll("nav.routes a").forEach(a => {
+      if (a.dataset.route === r) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    window.scrollTo(0, 0);
+  };
+  window.addEventListener("hashchange", show);
+
+  // Project filters
+  const btns = document.querySelectorAll(".filters button");
+  const cards = document.querySelectorAll("#cards .card");
+  btns.forEach(b => b.addEventListener("click", () => {
+    btns.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    const f = b.dataset.filter;
+    cards.forEach(c => { c.hidden = f !== "all" && !c.dataset.tags.split(" ").includes(f); });
+  }));
+
+  // Copy email
+  const copyBtn = document.getElementById("copy"), out = document.getElementById("copied");
+  copyBtn.addEventListener("click", () => {
+    const text = document.getElementById("email").textContent;
+    const fallback = () => {
+      const r = document.createRange(); r.selectNodeContents(document.getElementById("email"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      out.textContent = "Selected. Press Ctrl+C or ⌘C to copy.";
+    };
+    try {
+      navigator.clipboard.writeText(text).then(() => { out.textContent = "Email copied."; }, fallback);
+    } catch (e) { fallback(); }
+  });
+
+  // Routing demo (illustrative)
+  const traces = [
+    [["router","Router","Structured metric question → Genie agent"],
+     ["genie","Genie agent","Uses the NBRx metric view, grouped by region and quarter"],
+     ["genie","SQL","Generated query runs on governed Unity Catalog tables"],
+     ["out","Answer","Table of NBRx by region, with the SQL shown for checking"]],
+    [["router","Router","Document question → retrieval agent"],
+     ["rag","Retrieval agent","Vector Search over competitive-intelligence documents in a UC Volume"],
+     ["rag","Grounding","Top passages passed to the LLM with their sources"],
+     ["out","Answer","Short summary with a citation for each claim"]],
+    [["router","Router","Needs a number and context → calls both agents"],
+     ["genie","Genie agent","Naive patient starts by region and month from the metric view"],
+     ["rag","Retrieval agent","Recent publications that could explain the change"],
+     ["out","Answer","The dip quantified, then possible drivers with citations"]]
+  ];
+  const traceEl = document.getElementById("trace");
+  const qBtns = document.querySelectorAll(".qs button");
+  const renderTrace = i => {
+    traceEl.innerHTML = "";
+    traces[i].forEach(([cls, name, body], k) => {
+      const li = document.createElement("li"); li.className = cls; li.style.animationDelay = (k * 0.12) + "s";
+      const n = document.createElement("span"); n.className = "step-name"; n.textContent = name;
+      const t = document.createElement("span"); t.className = "step-body"; t.textContent = body;
+      li.append(n, t); traceEl.append(li);
+    });
+  };
+  qBtns.forEach(b => b.addEventListener("click", () => {
+    qBtns.forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    renderTrace(Number(b.dataset.q));
+  }));
+  renderTrace(0);
+
+  show();
+})();
+</script>
+
+</body></html>
